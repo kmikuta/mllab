@@ -8,3 +8,4 @@
 
 - `poetry run jupyter notebook` - launch Jupyter server
 - `poetry run flake8 mllab tests` - run linter
+- `poetry run pytest` - run tests

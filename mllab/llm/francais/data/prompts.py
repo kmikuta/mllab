@@ -4,7 +4,7 @@ word_prompt_parts = [
     "When asked how to say something in french, use the following format:"
     "The word type can be a verb, a noun, an adjective or a number",
     "The gender can be male or female."
-    "The transcription is a phonetic transcription.",
+    "The transcription is a french phonetic transcription.",
     "When word is not a noun, provide gender as n/a.",
 ]
 
@@ -12,8 +12,9 @@ word_prompt = lambda w: " ".join(word_prompt_parts) + f" How to say '{w}' in fre
 
 conjugation_prompt_parts = [
     "When asked for conjugation, use the following format:",
-    "The tense is a name of the tense conjugation relates to."
-    "Always provide conjugation by pronouns as a list."
+    "The tense is a french name of the tense the conjugation relates to."
+    "Always provide conjugation by pronouns as a list.",
+    "Pronouns are always capitalized."
 ]
 
 conjugation_prompt = lambda w, t: " ".join(conjugation_prompt_parts) + f"Provide conjugation for '{w}' in {t}."

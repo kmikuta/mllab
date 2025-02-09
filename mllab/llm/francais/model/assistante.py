@@ -24,10 +24,10 @@ class Assistante():
         self.client = Client()
 
     def get_word_details(self, word):
-        return self._generateContent(word_prompt(word), schema=WordDetailsModel)
+        return self._generateContent(word_prompt(word), schema=WordDetailsModel).parsed
     
     def get_conjugation(self, word, tense=Tense.PRESENT):
-        return self._generateContent(conjugation_prompt(word, tense), ConjugationModel)
+        return self._generateContent(conjugation_prompt(word, tense), ConjugationModel).parsed
     
     def _generateContent(self, contents, schema):
          return self.client.models.generate_content(
@@ -41,4 +41,4 @@ class Assistante():
         )
 
 
-__all__ = ["Assistante"]
+__all__ = ["Assistante", "WordDetailsModel", "ConjugationModel"]
