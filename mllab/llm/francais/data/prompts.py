@@ -1,15 +1,21 @@
-system_prompt = "You are an assistant helping to learn french used in Switzerland. When asked to provide some answer, do not propose anything extra."
+system_prompt = "You are an assistant helping to learn french."
 
 word_prompt_parts = [
-    "Indicate if it is verb, noun, adjective or number",
-    "Also provide phonetic transcription.",
-    "When it is number, provide also the ordinal number.",
-    "When it is noun, provide gender."
-    "Use the format: word [transcription], verb | noun | adjective | number."
+    "When asked how to say something in french, use the following format:"
+    "The word type can be a verb, a noun, an adjective or a number",
+    "The gender can be male or female."
+    "The transcription is a phonetic transcription.",
+    "When word is not a noun, provide gender as n/a.",
 ]
 
-word_prompt = lambda w: f"Specify how to say '{w}' in french. " + " ".join(word_prompt_parts)
+word_prompt = lambda w: " ".join(word_prompt_parts) + f" How to say '{w}' in french?"
 
-conjugation_prompt = lambda w, t: f"Provide conjugation for '{w}' by pronouns in {t}. Use list format."
+conjugation_prompt_parts = [
+    "When asked for conjugation, use the following format:",
+    "The tense is a name of the tense conjugation relates to."
+    "Always provide conjugation by pronouns as a list."
+]
+
+conjugation_prompt = lambda w, t: " ".join(conjugation_prompt_parts) + f"Provide conjugation for '{w}' in {t}."
 
 __all__ = ["system_prompt", "conjugation_prompt", "word_prompt"]

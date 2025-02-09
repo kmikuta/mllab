@@ -1,21 +1,44 @@
-import google.generativeai as genai
+from google.genai import types, Client
 from mllab.llm.francais.data import system_prompt, word_prompt, conjugation_prompt
 from mllab.llm.francais.model.tense import Tense
+from pydantic import BaseModel
+
+
+class WordDetailsModel(BaseModel):
+  word: str
+  type: str
+  gender: str
+  transcription: str
+
+
+class ConjugationModel(BaseModel):
+    tense: str
+    conjugation: list[str]
+
+
+MODEL = "gemini-2.0-flash"
 
 
 class Assistante():
-    def __init__(self, history=[]):
-        self.model = genai.GenerativeModel(
-            model_name="models/gemini-1.5-flash",
-            system_instruction=system_prompt
-        )
-        self.chat = self.model.start_chat(history=history)
+    def __init__(self):
+        self.client = Client()
 
     def get_word_details(self, word):
-        return self.chat.send_message(word_prompt(word))
+        return self._generateContent(word_prompt(word), schema=WordDetailsModel)
     
     def get_conjugation(self, word, tense=Tense.PRESENT):
-        return self.chat.send_message(conjugation_prompt(word, tense))
+        return self._generateContent(conjugation_prompt(word, tense), ConjugationModel)
+    
+    def _generateContent(self, contents, schema):
+         return self.client.models.generate_content(
+            contents=contents,
+            config=types.GenerateContentConfig(
+                system_instruction=system_prompt,
+                response_mime_type='application/json',
+                response_schema=schema
+            ),
+            model=MODEL
+        )
 
 
 __all__ = ["Assistante"]
